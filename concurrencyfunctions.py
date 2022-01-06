@@ -70,5 +70,3 @@ def select(cases, callback):
 
 
 default = object()  # used in select
-
-
