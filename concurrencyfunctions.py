@@ -9,6 +9,10 @@ class Channel:
 
 
 class WaitingQueue(list):
+    """
+    This WaitingQueue class supports enqueuing and dequeuing elements.
+    It also supports dequeuing a specific element if passed in.
+    """
     total = 0
 
     def enqueue(self, x):
@@ -29,17 +33,26 @@ class WaitingQueue(list):
 
 
 def go(callback):
+    """
+    Enqueues the callback into a list
+    """
     if callback:
         execution_queue.append(callback)
 
 
 def run():
+    """
+    Continually dequeues functions and executes them. Raises an
+    exception if there are go routines blocked on channel operations
+    and no functions left in the execution queue. Mirrors behavior in Go.
+    """
     while execution_queue:
         f = execution_queue.pop(0)
         f()
 
     if WaitingQueue.total > 0:
         raise Exception("fatal error: all goroutines are asleep - deadlock")
+
 
 def make():
     pass
